@@ -96,19 +96,17 @@ resource "aws_security_group" "terra1-sg" {
 
 # Create Linux and install Docker
 resource "aws_instance" "linux" {
-
-
   ami                         = "ami-09a9858973b288bdd"
   depends_on = [ aws_key_pair.mak1 ]
-  instance_type               = "t2.medium"
+  instance_type               = "t3.micro"
   key_name                    = "my-key1"
   subnet_id                   = aws_subnet.subnet-1.id
   vpc_security_group_ids      = [aws_security_group.terra1-sg.id]
   associate_public_ip_address = true  # Enable auto-assigning public IP
   user_data = <<-EOF
                #!/bin/bash
-               sudo yum -y update
-               sudo yum install docker -y
+               sudo apt -y update
+               sudo apt install docker.io -y
                sudo systemctl start docker
                sudo systemctl enable docker
                sudo docker pull maksoft121/makfirstimagenginx:challange
