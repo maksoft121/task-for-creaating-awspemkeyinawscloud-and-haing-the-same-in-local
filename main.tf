@@ -35,37 +35,23 @@ resource "tls_private_key" "rsa" {
   rsa_bits      = 4096
 }
 
-<<<<<<< HEAD
-resource "aws_key_pair" "mak1" {
-  key_name      = "my-key1"
-  public_key    = tls_private_key.rsa.public_key_openssh
-}
-=======
->>>>>>> 211cce5 (new change updated on output block and as well in main)
 resource "local_file" "mak-key1" {
     content = tls_private_key.rsa.private_key_pem
     filename= "my-key1.pem"
   }
 
-<<<<<<< HEAD
-=======
 resource "aws_key_pair" "mak1" {
   key_name      = "my-key1"
   public_key    = tls_private_key.rsa.public_key_openssh
 }
 
 
->>>>>>> 211cce5 (new change updated on output block and as well in main)
 # Creating 1st web subnet
 resource "aws_subnet" "subnet-1" {
   vpc_id                  = aws_vpc.testvpc.id
   cidr_block              = var.subnet1_cidr
   map_public_ip_on_launch = true
-<<<<<<< HEAD
-  availability_zone        = "us-east-1a"
-=======
   availability_zone        = "eu-north-1a"
->>>>>>> 211cce5 (new change updated on output block and as well in main)
 
   tags = {
     Name = "Subnet 1"
@@ -76,11 +62,7 @@ resource "aws_subnet" "subnet-2" {
   vpc_id                  = aws_vpc.testvpc.id
   cidr_block              = var.subnet2_cidr
   map_public_ip_on_launch = true
-<<<<<<< HEAD
-  availability_zone        = "us-east-1b"
-=======
   availability_zone        = "eu-north-1b"
->>>>>>> 211cce5 (new change updated on output block and as well in main)
 
   tags = {
     Name = "Subnet 2"
@@ -114,14 +96,11 @@ resource "aws_security_group" "terra1-sg" {
 
 # Create Linux and install Docker
 resource "aws_instance" "linux" {
-<<<<<<< HEAD
-  ami                         = "ami-08a0d1e16fc3f61ea"
-  instance_type               = "t2.micro"
-=======
+
+
   ami                         = "ami-09a9858973b288bdd"
   depends_on = [ aws_key_pair.mak1 ]
-  instance_type               = "t3.medium"
->>>>>>> 211cce5 (new change updated on output block and as well in main)
+  instance_type               = "t2.medium"
   key_name                    = "my-key1"
   subnet_id                   = aws_subnet.subnet-1.id
   vpc_security_group_ids      = [aws_security_group.terra1-sg.id]
@@ -135,9 +114,6 @@ resource "aws_instance" "linux" {
                sudo docker pull maksoft121/makfirstimagenginx:challange
                sudo docker container run -itd -p 80:80 maksoft121/makfirstimagenginx:challange
                EOF
-<<<<<<< HEAD
-}
-=======
 
                
  tags = {
@@ -147,4 +123,3 @@ resource "aws_instance" "linux" {
   }
 }
 
->>>>>>> 211cce5 (new change updated on output block and as well in main)
